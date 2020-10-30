@@ -10,13 +10,14 @@ class background:
     y = 0
     angle = 0
     turning = 0
-    Img = 'D:\\Racing\\Resources\\The_Skeld.jpg'
+    Img = 'D:\\Racing\\Resources\\ship.jpg'
     width = 0
     currentWidth = 0
     height = 0
     currentHeight = 0
     speed = 0
     color = (40,44,52)
+    Enabled = False
     def render(self,display, pygame):
         #rotated_image = pygame.transform.rotate(self.Img, self.angle*180/pi)
         display.blit(self.Img, (self.x,self.y))

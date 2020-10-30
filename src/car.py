@@ -41,7 +41,24 @@ class car:
         display.blit(rotated_image, (self.x,self.y))
         if len(self.logs)>10 and self.logging:
             pygame.draw.polygon(display, self.tracerColor, self.logs)
-
+    def inputs(self, event, pygame):
+        if event == pygame.K_l:
+            self.logging = True
+        if event == pygame.K_LEFT:
+            self.turning = 1
+        elif event == pygame.K_RIGHT:
+            self.turning = -1
+        if event == pygame.K_UP:
+            self.accelerating = -1
+        elif event == pygame.K_DOWN:
+            self.accelerating = 1
+    def inputsEnd(self, event, pygame):
+        if event == pygame.K_LEFT or event == pygame.K_RIGHT:
+            self.turning = 0    #x_change = 0
+        if event == pygame.K_UP or event == pygame.K_DOWN:
+            self.accelerating = 0
+        if event == pygame.K_l:
+            self.logging = False
     def wrap(self, display):
         if(self.x+self.currentWidth>=display.width):
             self.x = 0

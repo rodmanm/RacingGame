@@ -1,7 +1,7 @@
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 #Initialize Global Values
-class display:
+class window:
     width = 1600
     height = 900
 black = (0,0,0)
@@ -25,7 +25,7 @@ game = pygame.init()
 clock = pygame.time.Clock()
 
 #Configure Window
-gameDisplay = pygame.display.set_mode(size = (display.width,display.height),flags = pygame.RESIZABLE|pygame.SCALED, display = 1, vsync=1)
+gameDisplay = pygame.display.set_mode(size = (window.width,window.height),flags = pygame.RESIZABLE|pygame.SCALED, display = 1, vsync=1)
 pygame.display.set_caption('A bit Racey')
 
 
@@ -37,7 +37,7 @@ def text_objects(text, font):
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf',115)
     TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((display.width/2),(display.height/2))
+    TextRect.center = ((window.width/2),(window.height/2))
     gameDisplay.blit(TextSurf, TextRect)
     pygame.display.update()
     time.sleep(2)
@@ -63,54 +63,43 @@ def game_loop():
                 if event.key == pygame.K_c:
                     gameExit()
                     return 0
-                if event.key == pygame.K_l:
-                    car.logging = True
-                if event.key == pygame.K_LEFT:
-                    car.turning = 1
-                elif event.key == pygame.K_RIGHT:
-                    car.turning = -1
-                if event.key == pygame.K_UP:
-                    car.accelerating = -1
-                elif event.key == pygame.K_DOWN:
-                    car.accelerating = 1
+                car.inputs(event.key, pygame)
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    car.turning = 0    #x_change = 0
-                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    car.accelerating = 0
+                car.inputsEnd(event.key, pygame)
+                if event == pygame.K_UP or event == pygame.K_DOWN:
                     background.speed = 0
-                if event.key == pygame.K_l:
-                    car.logging = False
 
 
         #Calculate Updates
-        #background.update(car)
+        if background.Enabled:
+            background.update(car)
         if(car.logging):
             car.tracer()
         car.update()
-        fallingBlock.collide(car, display)
-        if(fallingBlock.y >= display.height):
-            fallingBlock.reset(display)
-        if (car.x > display.width - car.width) or (car.x < 0):
-                car.wrap(display)
-        if (car.y > display.height - car.height) or (car.y < 0):
-                car.wrap(display)
+        fallingBlock.collide(car, window)
+        if(fallingBlock.y >= window.height):
+            fallingBlock.reset(window)
+        if (car.x > window.width - car.width) or (car.x < 0):
+                car.wrap(window)
+        if (car.y > window.height - car.height) or (car.y < 0):
+                car.wrap(window)
         #Check for collisions
 
         #Render Objects
         gameDisplay.fill(background.color)
         Track.render(pygame, gameDisplay)
+        if background.Enabled:
+            background.render(gameDisplay, pygame)
         fallingBlock.render(black,gameDisplay, pygame)
-        #background.render(gameDisplay, pygame)
         car.render(gameDisplay, pygame)
 
         pygame.display.update()
         clock.tick(FPS)
 
-#background = background(pygame,0,0)
+background = background(pygame,0,0)
 fallingBlock = fallingBlock.fallingBlock(FPS)
-car = car(pygame,(display.width * 0.45),(display.height * 0.8))
-Track = Track(display, car.width)
+car = car(pygame,(window.width * 0.45),(window.height * 0.8))
+Track = Track(window, car.width)
 game_loop()
 print("Good Game!")
 #quit()
