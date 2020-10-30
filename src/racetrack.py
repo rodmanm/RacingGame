@@ -6,7 +6,7 @@ class display:
     height = 900
 black = (0,0,0)
 white = (255,255,255)
-
+FPS = 60
 red = (255,0,0)
 green = (0,255,0)
 blue = (0,0,255)
@@ -70,14 +70,14 @@ def game_loop():
                 elif event.key == pygame.K_RIGHT:
                     car.turning = -1
                 if event.key == pygame.K_UP:
-                    car.speed = -15
+                    car.accelerating = -1
                 elif event.key == pygame.K_DOWN:
-                    car.speed = 15
+                    car.accelerating = 1
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     car.turning = 0    #x_change = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    car.speed = 0
+                    car.accelerating = 0
                     background.speed = 0
                 if event.key == pygame.K_l:
                     car.logging = False
@@ -105,10 +105,10 @@ def game_loop():
         car.render(gameDisplay, pygame)
 
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(FPS)
 
 #background = background(pygame,0,0)
-fallingBlock = fallingBlock.fallingBlock()
+fallingBlock = fallingBlock.fallingBlock(FPS)
 car = car(pygame,(display.width * 0.45),(display.height * 0.8))
 Track = Track(display, car.width)
 game_loop()

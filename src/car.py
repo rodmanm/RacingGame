@@ -16,10 +16,19 @@ class car:
     height = 0
     currentHeight = 0
     speed = 0
+    accelerating = 0
     logs = []
     logging = False
     tracerColor = (128,128,0)
+    topSpeed = 25
     def update(self):
+        if(self.accelerating):
+            if(abs(self.speed) < self.topSpeed):
+                self.speed += self.accelerating
+        elif(self.speed == 0):
+            pass
+        else:
+            self.speed -= round(500*self.speed)/1000
         self.angle += self.turning/(10)
         self.x += self.speed*sin(self.angle)
         self.y += self.speed*cos(self.angle)
