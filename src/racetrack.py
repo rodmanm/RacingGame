@@ -25,7 +25,6 @@ game = pygame.init()
 clock = pygame.time.Clock()
 
 #Configure Window
-#gameDisplay = pygame.display.set_mode((display.width,display.height))
 gameDisplay = pygame.display.set_mode(size = (display.width,display.height),flags = pygame.RESIZABLE|pygame.SCALED, display = 1, vsync=1)
 pygame.display.set_caption('A bit Racey')
 
@@ -89,7 +88,7 @@ def game_loop():
         if(car.logging):
             car.tracer()
         car.update()
-        fallingBlock.collide(car)
+        fallingBlock.collide(car, display)
         if(fallingBlock.y >= display.height):
             fallingBlock.reset(display)
         if (car.x > display.width - car.width) or (car.x < 0):
