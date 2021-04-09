@@ -5,7 +5,6 @@ from background import Background
 from Track import Track
 import tkinter as tk
 # TODO: Add space to fire mah lazors
-# TODO: Port from pygame to turtle
 # TODO: Add networking
 # Initialize Global Values
 
@@ -47,7 +46,6 @@ def game_loop():
     realFPS = 0.01
     while window.FPS:
         window.update_idletasks()
-        # canvas.delete("all")
         startTime = time.time()
         # Calculate Updates
         if background.Enabled:
@@ -56,13 +54,13 @@ def game_loop():
         fallingBlock.collide(car, window)
         # Render Objects
         # Track.render(canvas)
-        # if background.Enabled:
-        #     background.render(canvas)
+        if background.Enabled:
+            background.render(canvas)
         fallingBlock.render(canvas, realFPS)
         car.render(canvas)
         window.update()
 
-        realFPS = 1/(time.time() - startTime)
+        realFPS = 1/(time.time() - startTime + .000001)     # Small Epsilon to avoid /0
         if realFPS > window.FPS:
             time.sleep(1 / (realFPS - window.FPS))
 
@@ -70,7 +68,7 @@ window.bind("<KeyPress>", controlsPressed)
 window.bind("<KeyRelease>", controlsReleased)
 background = Background(canvas, 0, 0)
 fallingBlock = FallingBlock(canvas, window.FPS)
-car = Car(canvas, (window.winfo_width() * 0.45), (window.winfo_height() * 0.8))
+car = Car(canvas)
 Track = Track(window, car.width)
 game_loop()
 print("Good Game!")

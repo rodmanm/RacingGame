@@ -1,16 +1,19 @@
 from math import sin, cos, pi
-from PIL import ImageTk, Image
+from PIL import Image, ImageTk
+from tkinter import NW, PhotoImage
 class Car:
-    def __init__(self, canvas, xinit, yinit):
-        self.x = xinit
-        self.y = yinit
-        self.Img = Image.open(self.Img)
-        self.width = self.Img.width
-        self.height = self.Img.height
-        tkImage = ImageTk.PhotoImage(self.Img)
-        self.icon = canvas.create_image(self.x, self.y, image=tkImage)
+    def __init__(self, canvas):
+        self.x = canvas.winfo_width() * 0.45
+        self.y = canvas.winfo_height() * 0.8
+        self.Img = ImageTk(Image.open(self.Img))
+        # self.Img = PhotoImage(file=self.Img)
+        self.width = self.Img.width()
+        self.height = self.Img.height()
+        self.image = canvas.create_image(self.x, self.y, anchor=NW, image=self.Img)
     x = 0
+    xspeed = 0
     y = 0
+    yspeed = 0
     angle = 0
     turning = 0
     Img = '../Resources/racecar.png'
@@ -36,6 +39,8 @@ class Car:
         if self.logging:
             self.tracer()
         self.angle += self.turning/10
+        self.xspeed = self.speed*sin(self.angle)
+        self.yspeed = self.speed*cos(self.angle)
         self.x += self.speed*sin(self.angle)
         self.y += self.speed*cos(self.angle)
         self.currentWidth = abs(self.width*cos(self.angle))+abs(self.height*sin(self.angle))
@@ -46,12 +51,9 @@ class Car:
             self.wrap(window)
 
     def render(self, canvas):
-        rotated_image = self.Img.rotate(self.angle*180/pi)
-        tkImage = ImageTk.PhotoImage(rotated_image)
-        # canvas.configure(self.icon, image=tkImage)
-        # if len(self.logs) > 10 and self.logging:
-        #     pygame.draw.polygon(display, self.tracerColor, self.logs)
-        # TODO: FIX THIS
+        # rotated_image = self.Img.rotate(self.angle*180/pi)
+        # tkImage = PhotoImage(rotated_image)
+        canvas.move(self.image, self.xspeed, self.yspeed)
 
     def inputs(self, key):
         if key == 'l':
