@@ -1,15 +1,21 @@
 from math import sin, cos, pi
 from PIL import Image, ImageTk
 from tkinter import NW, PhotoImage
-class Car:
+from turtle import RawTurtle, TurtleScreen
+class Car(RawTurtle):
     def __init__(self, canvas):
+        super().__init__(canvas)
+        self.screen = TurtleScreen(canvas)
         self.x = canvas.winfo_width() * 0.45
         self.y = canvas.winfo_height() * 0.8
-        self.Img = ImageTk(Image.open(self.Img))
-        # self.Img = PhotoImage(file=self.Img)
+        self.turtle = RawTurtle(canvas)
+        self.turtle.shape('turtle')
+        # self.Img = ImageTk(Image.open(self.Img))
+        self.Img = PhotoImage(file=self.Img)
         self.width = self.Img.width()
         self.height = self.Img.height()
-        self.image = canvas.create_image(self.x, self.y, anchor=NW, image=self.Img)
+
+        # self.image = canvas.create_image(self.x, self.y, anchor=NW, image=self.Img)
     x = 0
     xspeed = 0
     y = 0
@@ -17,9 +23,9 @@ class Car:
     angle = 0
     turning = 0
     Img = '../Resources/racecar.png'
-    width = 0
+    width = 10
     currentWidth = 0
-    height = 0
+    height = 10
     currentHeight = 0
     speed = 0
     accelerating = 0
@@ -45,15 +51,23 @@ class Car:
         self.y += self.speed*cos(self.angle)
         self.currentWidth = abs(self.width*cos(self.angle))+abs(self.height*sin(self.angle))
         self.currentHeight = abs(self.width*sin(self.angle))+abs(self.height*cos(self.angle))
-        if (self.x > window.winfo_width() - self.width) or (self.x < 0):
-            self.wrap(window)
-        if (self.y > window.winfo_height() - self.height) or (self.y < 0):
-            self.wrap(window)
+        if self.x > window.winfo_width() - self.width:
+            # self.wrap(window)
+            self.x = window.winfo_width() - self.width
+        elif self.x < 0:
+            self.x = 0
+        if self.y > window.winfo_height() - self.height:
+            # self.wrap(window)
+            self.y = window.winfo_height() - self.height
+        elif self.y < 0:
+            self.y = 0
 
     def render(self, canvas):
         # rotated_image = self.Img.rotate(self.angle*180/pi)
         # tkImage = PhotoImage(rotated_image)
-        canvas.move(self.image, self.xspeed, self.yspeed)
+        # canvas.move(self.image, self.xspeed, self.yspeed)
+        self.turtle.setheading(self.angle*180/pi)
+        self.turtle.forward(-self.speed)
 
     def inputs(self, key):
         if key == 'l':
@@ -78,12 +92,16 @@ class Car:
     def wrap(self, window):
         if self.x + self.currentWidth >= window.winfo_width():
             self.x = 0
+            self.angle - pi
         elif self.x <= 0:
-            self.x = window.winfo_width() - self.currentWidth
+            self.xspeed = -self.xspeed
+            self.angle - pi
         elif self.y + self.currentHeight >= window.winfo_height():
             self.y = 0
+            self.angle - pi
         elif self.y <= 0:
             self.y = window.winfo_height() - self.currentHeight
+            self.angle = self.angle - pi
 
     def tracer(self):
         self.logs.append((self.x, self.y))

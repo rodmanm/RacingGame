@@ -4,6 +4,7 @@ from car import Car
 from background import Background
 from Track import Track
 import tkinter as tk
+from turtle import ScrolledCanvas
 # TODO: Add space to fire mah lazors
 # TODO: Add networking
 # Initialize Global Values
@@ -12,7 +13,8 @@ import tkinter as tk
 window = tk.Tk()
 window.attributes('-fullscreen', True)
 window.FPS = 60
-canvas = tk.Canvas(master=window, bg='white')
+# canvas = tk.Canvas(master=window, bg='white')
+canvas = ScrolledCanvas(window)
 canvas.pack(fill=tk.BOTH, expand=True)
 
 def text_objects(text, font):

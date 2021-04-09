@@ -62,9 +62,11 @@ def redrawWindow(win,player, player2):
 def main():
     run = True
     n = Network()
+    while True:
+        print(n.getPos())
     startPos = read_pos(n.getPos())
-    p = Player(startPos[0],startPos[1],100,100,(0,255,0))
-    p2 = Player(0,0,100,100,(255,0,0))
+    p = Player(startPos[0],startPos[1], 100, 100, (0, 255, 0))
+    p2 = Player(0, 0, 100, 100, (255, 0, 0))
     clock = pygame.time.Clock()
 
     while run:
