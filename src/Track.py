@@ -8,30 +8,30 @@ class Track:
     loop = []
     border = []
 
-    def __init__(self, display, width):     # Modify this to be the equation of a semi random closed surface.
-        points = list(range(display.height))
+    def __init__(self, window, width):     # Modify this to be the equation of a semi random closed surface.
+        points = list(range(window.winfo_height()))
         self.loop = []
         for i in points:        # Generate half
-            sine = (sin(pi*i/(display.height-width))+1)
-            cosine = (cos(pi*i/(display.height-width))+1)
-            self.xcoords.append(int(display.width*sine/2))
-            self.ycoords.append(int((display.height-2*width)*cosine/2+width/2))
+            sine = (sin(pi*i/(window.winfo_height()-width))+1)
+            cosine = (cos(pi*i/(window.winfo_height()-width))+1)
+            self.xcoords.append(int(window.winfo_width()*sine/2))
+            self.ycoords.append(int((window.winfo_height()-2*width)*cosine/2+width/2))
             self.loop.append([self.xcoords[-1], self.ycoords[-1]+width])
         for i in points[::-1]:      # Generate other half
-            sine = (sin(-pi*i/(display.height-width))+1)
-            cosine = (cos(pi*i/(display.height-width))+1)
-            self.xcoords.append(int(display.width*sine/2))
-            self.ycoords.append(int((display.height-2*width)*cosine/2+width/2))
+            sine = (sin(-pi*i/(window.winfo_height()-width))+1)
+            cosine = (cos(pi*i/(window.winfo_height()-width))+1)
+            self.xcoords.append(int(window.winfo_width()*sine/2))
+            self.ycoords.append(int((window.winfo_height()-2*width)*cosine/2+width/2))
             self.loop.append([self.xcoords[-1], self.ycoords[-1]+width])
         # loop = array(self.loop)
         for i in self.loop:
-            if i[1] > 1/2*display.height:
-                if i[0] > 1/2*display.width:
+            if i[1] > 1/2*window.winfo_height():
+                if i[0] > 1/2*window.winfo_width():
                     self.border.append([abs(i[0]-width), abs(i[1]-width)])
                 else:
                     self.border.append([abs(i[0]+width), abs(i[1]-width)])
             else:
-                if i[0] > 1/2*display.width:
+                if i[0] > 1/2*window.winfo_width():
                     self.border.append([abs(i[0]-width), abs(i[1]+width)])
                 else:
                     self.border.append([abs(i[0]+width), abs(i[1]+width)])

@@ -10,7 +10,7 @@ class Car:
     y = 0
     angle = 0
     turning = 0
-    Img = 'D:\\Racing\\Resources\\racecar.png'
+    Img = 'Resources\\racecar.png'
     width = 0
     currentWidth = 0
     height = 0
@@ -62,15 +62,15 @@ class Car:
         if event == pygame.K_l:
             self.logging = False
 
-    def wrap(self, display):
-        if self.x + self.currentWidth >= display.width:
+    def wrap(self, window):
+        if self.x + self.currentWidth >= window.winfo_width():
             self.x = 0
         elif self.x <= 0:
-            self.x = display.width - self.currentWidth
-        elif self.y + self.currentHeight >= display.height:
+            self.x = window.winfo_width() - self.currentWidth
+        elif self.y + self.currentHeight >= window.winfo_height():
             self.y = 0
         elif self.y <= 0:
-            self.y = display.height - self.currentHeight
+            self.y = window.winfo_height() - self.currentHeight
 
     def tracer(self):
         self.logs.append((self.x, self.y))
