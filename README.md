@@ -17,3 +17,7 @@ Space might also be to jump.
 
 Currently this project is written using pygame, but I'd like to transition it at least partially to use turtle. 
 Best case senario I would remove pygame entirely in favor of turtle. Pygame is just a bit too slow, not that turtle is much faster. 
+
+# Prerequesites
+pip install pillow
+pip install pygame

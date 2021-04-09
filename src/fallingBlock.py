@@ -1,8 +1,9 @@
 import random
 from math import pi
 class FallingBlock:
-    def __init__(self, FPS):
+    def __init__(self, canvas, FPS):
         self.FPS = FPS
+        self.rect = canvas.create_rectangle(self.x, self.y, self.x + self.width, self.y + self.height, fill=self.color)
     # Create object
     x = 300
     y = 0
@@ -12,16 +13,18 @@ class FallingBlock:
     xspeed = 0
     height = 100
     FPS = 60
+    color = "black"
 
-    def reset(self, window):
-        # self.x = random.randrange(self.width, int(window.winfo_width()-self.width))
+    def reset(self, canvas):
+        self.x = random.randrange(self.width, int(canvas.winfo_width()-self.width))
         # TODO: Uncomment this line
         self.y = -self.height
         self.xspeed = 0
         self.yspeed = 1
 
-    def render(self, color, window, pygame):
-        pygame.draw.rect(window, color, [self.x, self.y, self.width, self.height])
+    def render(self, canvas, FPS=60):
+        self.FPS = FPS
+        canvas.move(self.rect, self.x, self.y)
 
     def collide(self, car, window):
         if self.y >= window.winfo_height():  # We don't need to check for exceeding the top of the map

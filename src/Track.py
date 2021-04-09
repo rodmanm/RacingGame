@@ -39,6 +39,7 @@ class Track:
             self.border.append([abs(-i[0]), abs(i[1])])
         # print(self.loop)
 
-    def render(self, pygame, display):
-        pygame.draw.polygon(display, self.color, self.loop, width=4)
+    def render(self, canvas):
+        pass    # TODO: Implement rendering
+        # canvas.create_polygon(self.loop, self.color,  width=4)
         # pygame.draw.lines(display, self.lineColor, False, self.loop)
