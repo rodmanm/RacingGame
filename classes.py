@@ -1,6 +1,7 @@
 from turtle import *
 from abc import *
 import time
+import random
 
 class boundedObject(Turtle):
     def __init__(self, speed, xMin, xMax, yMin, yMax):
@@ -98,13 +99,11 @@ class Ball(boundedObject):
                 Ball.collisions = Ball.collisions + 1
         self.getscreen().ontimer(self.checkCollisions, 1)
 
+
 class Car(boundedObject):
     allCars = []
-    gof = False
-    gob = False
-    turnR = False
-    turnL = False
-    sec = 0
+    fuel = 0
+
 
     @staticmethod
     def getCars():
@@ -118,11 +117,16 @@ class Car(boundedObject):
         self.shape('turtle')
         self.turtlesize(3)
         self.setheading(heading)
-        # Car.allCars = Car.getCars()
+        Car.allCars = Car.getCars()
         Car.allCars.append(self)
 
+        self.gof = False
+        self.gob = False
+        self.turnR = False
+        self.turnL = False
         self.double = False
         self.__timeMve = 0
+        self.cooldowncount = 0
 
         self.__screen = self.getscreen()
         self.__screen.onkeypress(self.fwd, "w")
@@ -134,28 +138,27 @@ class Car(boundedObject):
         self.__screen.onkeypress(self.rht, "d")
         self.__screen.onkeyrelease(self.stpTurn, "d")
         self.__screen.onkey(self.quit, "q")
-        self.__screen.onclick(self.doubleSpeed, 1, None)
+        self.__screen.onkey(self.doubleSpeed, " ")
         self.getscreen().ontimer(self.move, 10)
 
 
     def move(self):
-        if Car.gof & self.boundsFGood():
+        if self.gof & self.boundsFGood():
             if self.double:
                 self.forward((self.getSpeed()) * 3)
                 self.__timeMve += 1
-                print(self.__timeMve)
                 if self.__timeMve >= 35:
                     self.double = False
             else:
                 self.forward(self.getSpeed())
                 self.__timeMve = max(0, self.__timeMve - 1)
-        elif Car.gob & self.boundsBGood():
+        elif self.gob & self.boundsBGood():
             self.backward(self.getSpeed())
 
 
-        if Car.turnR:
+        if self.turnR:
             self.right(7)
-        elif Car.turnL:
+        elif self.turnL:
             self.left(7)
 
         self.getscreen().ontimer(self.move, 10)
@@ -163,32 +166,44 @@ class Car(boundedObject):
 
     def fwd(self):
         self.setSpeed(self.__ogSpeed)
-        Car.gof = True
+        self.gof = True
 
     def bkwd(self):
         self.setSpeed(self.__ogSpeed)
-        Car.gob = True
+        self.gob = True
 
     def lft(self):
-        Car.turnL = True
+        self.turnL = True
 
     def rht(self):
-        Car.turnR = True
+        self.turnR = True
 
     def brake(self):
-        Car.gof = False
-        Car.gob = False
+        self.gof = False
+        self.gob = False
 
     def stpTurn(self):
-        Car.turnR = False
-        Car.turnL = False
+        self.turnR = False
+        self.turnL = False
 
-    def doubleSpeed(self, x, y):
-        self.double = True
-        Car.sec = time.time()
-        #self.__screen.onclick(None)
+    def doubleSpeed(self):
+        print("Boost?")
+        if Car.fuel >= 2:
+            self.double = True
+            self.sec = time.time()
+            self.__screen.onkey(None, " ")
+            print("\nYeeesss!!")
+            Car.fuel -= 2
+            self.cooldowncount = 1000
+            self.coolDown()
 
-
+    def coolDown(self):
+        if (self.cooldowncount <= 1):
+            self.cooldowncount = 0
+            self.__screen.onkey(self.doubleSpeed, " ")
+        else:
+            self.cooldowncount -= 1
+            self.__screen.ontimer(self.coolDown, 10)
 
     def boundsFGood(self):
         contFwd = True
@@ -220,9 +235,66 @@ class Car(boundedObject):
                 contBkwd = False
         return contBkwd
 
-
-
     def quit(self):
         self.__screen.bye()
 
+
+
+
+class Fish(boundedObject):
+    allFish = 0
+
+    @staticmethod
+    def getFish():
+        return Fish.allFish
+
+    def __init__(self, speed, xMin, xMax, yMin, yMax, xPlace, yPlace):
+        super().__init__(speed, xMin, xMax, yMin, yMax)
+        self.getscreen().tracer(0)
+        self.up()
+        self.resizemode('user')
+        self.color('black', 'red')
+        self.shape('triangle')
+        self.up()
+        self.turtlesize(1.5)
+        self.goto(xPlace, yPlace)
+        self.setheading(random.randint(1, 358))
+        self.getscreen().tracer(1)
+        self.__screen = self.getscreen()
+        Fish.allFish += 1
+        self.__alive = True
+        self.getscreen().ontimer(self.move, 1)
+        self.getscreen().ontimer(self.checkCollisions, 1)
+
+
+    def move(self):
+        if self.__alive:
+            self.forward(self.getSpeed())
+        if self.outOfBounds():
+            self.computeNewHeading()
+        self.getscreen().ontimer(self.move, 2)
+
+    def computeNewHeading(self):
+        xPos, yPos = self.position()
+        oldHead = self.heading()
+        newHead = oldHead
+
+        if xPos < self.getXMin() or xPos > self.getXMax():
+            newHead = 180 - oldHead
+        if yPos < self.getYMin() or yPos > self.getYMax():
+            newHead = 360 - oldHead
+
+        self.setheading(newHead)
+
+    def checkCollisions(self):
+        if self.__alive:
+            for a in Car.getCars():
+                if self.distance(a) < 30:
+                    self.__alive = False
+                    self.hideturtle()
+                    Fish.allFish -= 1
+                    Car.fuel += 1
+                    print("Fuel: ", Car.fuel)
+                    self.clear()
+            self.getscreen().ontimer(self.checkCollisions, 1)
 

@@ -24,12 +24,17 @@ class Soccer(Turtle, Thread):
             a.up()
             a.goto(-150, 300)
         self.__mainWin.onkey(self.placeBall, "p")
+        self.__mainWin.onclick(self.placeFish, 1, None)
         #Car(0, 10, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
         self.__mainWin.listen()
         mainloop()
 
     def placeBall(self):
         Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
+
+    def placeFish(self, x, y):
+        if Fish.getFish() < 3:
+            Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y)
 
     # def goal(self):
     #     pos = Ball.location()
