@@ -14,7 +14,7 @@ class Soccer(Turtle, Thread):
         self.__yMax = yMax
         self.__turtle = turtle.Turtle()
         self.__mainWin = turtle.Screen()
-        self.__mainWin.bgcolor('light green')
+        self.__mainWin.bgcolor('light blue')
         self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
         self.__turtle.hideturtle()
 
@@ -33,8 +33,8 @@ class Soccer(Turtle, Thread):
         Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
 
     def placeFish(self, x, y):
-        if Fish.getFish() < 3:
-            Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y)
+        # if Fish.getFish() < 3:
+        Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y)
 
     # def goal(self):
     #     pos = Ball.location()
