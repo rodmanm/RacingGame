@@ -1,5 +1,7 @@
 import socket
+from urllib.request import urlopen
 
+ext_ip = urlopen('https://ident.me').read().decode('utf8')
 
 class Network:
     def __init__(self):

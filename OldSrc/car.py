@@ -1,6 +1,6 @@
 from math import sin, cos, pi
 from PIL import Image, ImageTk
-from tkinter import NW, PhotoImage
+from tkinter import NW, PhotoImage, TclError
 from turtle import RawTurtle, TurtleScreen
 class Car(RawTurtle):
     def __init__(self, canvas):
@@ -9,20 +9,20 @@ class Car(RawTurtle):
         self.x = canvas.winfo_width() * 0.45
         self.y = canvas.winfo_height() * 0.8
         self.turtle = RawTurtle(canvas)
-        self.turtle.shape('turtle')
-        # self.Img = ImageTk(Image.open(self.Img))
-        self.Img = PhotoImage(file=self.Img)
+        if self.Img not in self.getscreen().getshapes():
+            self.getscreen().addshape(self.Img)
+        self.turtle.shape(self.Img)
         self.width = self.Img.width()
         self.height = self.Img.height()
 
         # self.image = canvas.create_image(self.x, self.y, anchor=NW, image=self.Img)
+    Img = 'Resources/racecar.gif'
     x = 0
     xspeed = 0
     y = 0
     yspeed = 0
     angle = 0
     turning = 0
-    Img = '../Resources/racecar.png'
     width = 10
     currentWidth = 0
     height = 10
