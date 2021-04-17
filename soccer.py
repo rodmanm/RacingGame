@@ -1,5 +1,6 @@
-from classes import *
+from classes import Ball, Car
 from turtle import *
+from Fish import Fish
 import turtle
 from threading import Thread
 
@@ -24,7 +25,7 @@ class Soccer(Turtle, Thread):
             a.goto(-150, 300)
         self.__mainWin.onkey(self.placeBall, "p")
         self.__mainWin.onclick(self.placeFish, 1, None)
-        #Car(0, 10, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
+        # Car(0, 10, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
         self.__mainWin.listen()
         mainloop()
 
