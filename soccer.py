@@ -19,7 +19,6 @@ class Soccer(Turtle, Thread):
 
     def play(self):
         Car(0, 7, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
-        #self.reset()
         for a in Car.allCars:
             a.up()
             a.goto(-150, 300)
