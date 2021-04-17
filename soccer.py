@@ -1,4 +1,4 @@
-#khondicker
+# khondicker
 from ball import Ball
 from car import Car
 from turtle import *
@@ -16,7 +16,10 @@ class Soccer(Turtle):
         self.__turtle = turtle.Turtle()
         self.__mainWin = turtle.Screen()
         self.__mainWin.bgcolor('light blue')
-        # self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
+        self.window = turtle.Screen()
+        self.window.screensize(1920, 1080)
+        self.window.setup(width=1.0, height=1.0, startx=None, starty=None)
+        self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
         self.__turtle.hideturtle()
         self.fishies = []
         self.cars = []
