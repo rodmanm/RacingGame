@@ -1,6 +1,6 @@
 import random
 from BoundedObject import BoundedObject
-from classes import Car
+from car import Car
 from threading import Thread
 
 class Fish(BoundedObject, Thread):
@@ -24,15 +24,15 @@ class Fish(BoundedObject, Thread):
             self.getscreen().addshape("Resources/fish-right.gif")
         self.shape("Resources/fish-left.gif")
         self.turtlesize(0.125)
-        self.getscreen().ontimer(self.move, 1)
-        self.getscreen().ontimer(self.checkCollisions, 1)
 
     def move(self):
         if self.__alive:
             self.forward(self.getSpeed())
         if self.outOfBounds():
             self.computeNewHeading()
-        self.getscreen().ontimer(self.move, 2)
+
+    def isAlive(self):
+        return self.__alive
 
     def computeNewHeading(self):
         xPos, yPos = self.position()
@@ -49,12 +49,11 @@ class Fish(BoundedObject, Thread):
     def checkCollisions(self):
         if self.__alive:
             for a in Car.getCars():
-                if self.distance(a) < 30:
+                if self.distance(a) < 100:
                     self.__alive = False
                     Car.fuel += 1
                     print("Fuel: ", Car.fuel)
                     self.ht()
-            self.getscreen().ontimer(self.checkCollisions, 1)
 
     def remove(self):
         self.ht()
