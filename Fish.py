@@ -6,6 +6,7 @@ from threading import Thread
 class Fish(BoundedObject, Thread):
     def __init__(self, speed, xMin, xMax, yMin, yMax, xPlace, yPlace):
         super().__init__(speed, xMin, xMax, yMin, yMax)
+        Thread.__init__(self)
         self.getscreen().tracer(0)
         self.up()
         self.resizemode('user')

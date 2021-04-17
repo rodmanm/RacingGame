@@ -12,6 +12,7 @@ class Car(BoundedObject, Thread):
 
     def __init__(self, heading, speed, xMin, xMax, yMin, yMax):
         super().__init__(speed, xMin, xMax, yMin, yMax)
+        Thread.__init__(self)
         self.__ogSpeed = speed
         # self.resizemode('user')
         self.color('green')
