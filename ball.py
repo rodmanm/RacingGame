@@ -22,6 +22,7 @@ class Ball(BoundedObject, Thread):
 
     def move(self):
         self.forward(self.getSpeed())
+        self.setSpeed(self.getSpeed()*.95)
         if self.outOfBounds():
             self.computeNewHeading()
 
