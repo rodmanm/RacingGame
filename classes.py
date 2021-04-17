@@ -195,5 +195,5 @@ class Car(BoundedObject):
         self.__screen.bye()
 
     def remove(self):
-        # TODO: Make turtle vanish when this is called
+        self.ht()
         self.quit()

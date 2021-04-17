@@ -2,10 +2,9 @@ from classes import Ball, Car
 from turtle import *
 from Fish import Fish
 import turtle
-from threading import Thread
 
 
-class Soccer(Turtle, Thread):
+class Soccer(Turtle):
     def __init__(self, xMin, xMax, yMin, yMax):
         super().__init__()
         self.__xMin = xMin
@@ -17,6 +16,7 @@ class Soccer(Turtle, Thread):
         self.__mainWin.bgcolor('light blue')
         self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
         self.__turtle.hideturtle()
+        self.fishies = []
 
     def play(self):
         Car(0, 7, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
@@ -34,7 +34,7 @@ class Soccer(Turtle, Thread):
 
     def placeFish(self, x, y):
         # if Fish.getFish() < 3:
-        Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y)
+        self.fishies.append(Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y))
 
     # def goal(self):
     #     pos = Ball.location()
