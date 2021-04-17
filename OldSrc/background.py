@@ -12,7 +12,7 @@ class Background:
     y = 0
     angle = 0
     turning = 0
-    Img = '../Resources/ship.jpg'
+    Img = 'Resources/ship.jpg'
     width = 0
     currentWidth = 0
     height = 0
