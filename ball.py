@@ -1,9 +1,8 @@
 from BoundedObject import BoundedObject
 from car import Car
+from threading import Thread
 
-class Ball(BoundedObject):
-    collisions = 0
-
+class Ball(BoundedObject, Thread):
     @staticmethod
     def location():
         xPos, yPos = Ball.position()
@@ -20,22 +19,16 @@ class Ball(BoundedObject):
         self.goto(0, 300)
         self.setheading(0)
         self.getscreen().tracer(1)
-        self.getscreen().ontimer(self.move, 1)
-        self.getscreen().ontimer(self.checkCollisions, 1)
 
     def move(self):
-        if Ball.collisions == 1:
-            self.setSpeed(2)
         self.forward(self.getSpeed())
         if self.outOfBounds():
             self.computeNewHeading()
-        self.getscreen().ontimer(self.move, 2)
 
     def computeNewHeading(self):
         xPos, yPos = self.position()
         oldHead = self.heading()
         newHead = oldHead
-
         if xPos < self.getXMin() or xPos > self.getXMax():
             newHead = 180 - oldHead
         if yPos < self.getYMin() or yPos > self.getYMax():
@@ -47,8 +40,7 @@ class Ball(BoundedObject):
         for a in Car.getCars():
             if self.distance(a) < 30:
                 self.setheading(a.heading())
-                Ball.collisions = Ball.collisions + 1
-        self.getscreen().ontimer(self.checkCollisions, 1)
+                self.setSpeed(2*a.getSpeed())
 
     def remove(self):
         pass

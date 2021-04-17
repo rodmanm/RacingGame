@@ -1,7 +1,8 @@
 from BoundedObject import BoundedObject
 from time import time
+from threading import Thread
 
-class Car(BoundedObject):
+class Car(BoundedObject, Thread):
     allCars = []
     fuel = 0
 

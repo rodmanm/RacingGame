@@ -23,6 +23,7 @@ class Soccer(Turtle):
         self.__turtle.hideturtle()
         self.fishies = []
         self.cars = []
+        self.ball = []
         self.movement()
 
     def play(self):
@@ -38,7 +39,7 @@ class Soccer(Turtle):
         mainloop()
 
     def placeBall(self):
-        Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax)
+        self.ball.append(Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax))
 
     def placeFish(self, x, y):
         self.fishies.append(Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y))
@@ -49,6 +50,9 @@ class Soccer(Turtle):
             i.checkCollisions()
         for i in self.cars:
             i.move()
+        for i in self.ball:
+            i.move()
+            i.checkCollisions()
         # for i in range(len(self.fishies)):
         #     if not self.fishies[i].__alive:
         #         del self.fishies[i]
@@ -70,6 +74,5 @@ class Soccer(Turtle):
 
 
 if __name__ == '__main__':
-    global game
     game = Soccer(-800, 800, 0, 600)
     game.play()
