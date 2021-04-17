@@ -15,7 +15,7 @@ class Soccer(Turtle):
         self.__turtle = turtle.Turtle()
         self.__mainWin = turtle.Screen()
         self.__mainWin.bgcolor('light blue')
-        self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
+        # self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
         self.__turtle.hideturtle()
         self.fishies = []
         self.cars = []
@@ -62,3 +62,9 @@ class Soccer(Turtle):
     #         a.up()
     #         a.goto(-150, 300)
     #     self.__mainWin.onkey(self.placeBall, "p")
+
+
+if __name__ == '__main__':
+    global game
+    game = Soccer(-800, 800, 0, 600)
+    game.play()
