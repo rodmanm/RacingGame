@@ -291,6 +291,7 @@ class Fish(boundedObject):
             for a in Car.getCars():
                 if self.distance(a) < 30:
                     self.__alive = False
+                    self.hideturtle()
                     Fish.allFish -= 1
                     Car.fuel += 1
                     print("Fuel: ", Car.fuel)
