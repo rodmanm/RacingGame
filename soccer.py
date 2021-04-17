@@ -1,3 +1,4 @@
+#khondicker
 from ball import Ball
 from car import Car
 from turtle import *
@@ -49,6 +50,7 @@ class Soccer(Turtle):
         #     if not self.fishies[i].__alive:
         #         del self.fishies[i]
         self.__mainWin.ontimer(self.movement, 2)
+
     # def goal(self):
     #     pos = Ball.location()
     #     xPos = pos[0]
