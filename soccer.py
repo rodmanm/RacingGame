@@ -17,17 +17,14 @@ class Soccer(Turtle):
         self.__mainWin = turtle.Screen()
         self.__mainWin.bgcolor('light blue')
         self.window = turtle.Screen()
-        self.window.screensize(1920, 1080)
         self.window.setup(width=1.0, height=1.0, startx=None, starty=None)
         self.__mainWin.setworldcoordinates(self.__xMin, self.__yMin, self.__xMax, self.__yMax)
         self.__turtle.hideturtle()
-        self.fishies = []
-        self.cars = []
-        self.ball = []
+        self.objects = []
         self.movement()
 
     def play(self):
-        self.cars.append(Car(0, 7, self.__xMin, self.__xMax, self.__yMin, self.__yMax))
+        self.objects.append(Car(0, 7, self.__xMin, self.__xMax, self.__yMin, self.__yMax))
         for a in Car.allCars:
             a.up()
             a.goto(-150, 300)
@@ -39,20 +36,15 @@ class Soccer(Turtle):
         mainloop()
 
     def placeBall(self):
-        self.ball.append(Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax))
+        self.objects.append(Ball(0, self.__xMin, self.__xMax, self.__yMin, self.__yMax))
 
     def placeFish(self, x, y):
-        self.fishies.append(Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y))
+        self.objects.append(Fish(10, self.__xMin, self.__xMax, self.__yMin, self.__yMax, x, y))
 
     def movement(self):
-        for i in self.fishies:
-            i.move()
+        for i in self.objects:
             i.checkCollisions()
-        for i in self.cars:
             i.move()
-        for i in self.ball:
-            i.move()
-            i.checkCollisions()
         # for i in range(len(self.fishies)):
         #     if not self.fishies[i].__alive:
         #         del self.fishies[i]

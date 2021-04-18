@@ -24,7 +24,6 @@ class Fish(BoundedObject, Thread):
         if "Resources/fish-right.gif" not in self.getscreen().getshapes():
             self.getscreen().addshape("Resources/fish-right.gif")
         self.shape("Resources/fish-left.gif")
-        self.turtlesize(0.125)
 
     def move(self):
         if self.__alive:
@@ -50,10 +49,10 @@ class Fish(BoundedObject, Thread):
     def checkCollisions(self):
         if self.__alive:
             for a in Car.getCars():
-                if self.distance(a) < 100:
+                if self.distance(a) < 60:
                     self.__alive = False
                     Car.fuel += 1
-                    print("Fuel: ", Car.fuel)
+                    print("Score: ", Car.fuel)
                     self.ht()
 
     def remove(self):

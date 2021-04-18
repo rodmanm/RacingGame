@@ -27,6 +27,8 @@ class Car(BoundedObject, Thread):
         self.turnR = False
         self.turnL = False
         self.double = False
+        self.contBkwd = True
+        self.contFwd = True
         self.__timeMve = 0
         self.sec = time()
         self.cooldowncount = 0
@@ -45,7 +47,7 @@ class Car(BoundedObject, Thread):
         self.getscreen().ontimer(self.move, 10)
 
     def move(self):
-        if self.gof & self.boundsFGood():
+        if self.gof & self.contFwd:
             if self.double:
                 self.forward((self.getSpeed()) * 3)
                 self.__timeMve += 1
@@ -54,7 +56,7 @@ class Car(BoundedObject, Thread):
             else:
                 self.forward(self.getSpeed())
                 self.__timeMve = max(0, self.__timeMve - 1)
-        elif self.gob & self.boundsBGood():
+        elif self.gob & self.contBkwd:
             self.backward(self.getSpeed())
 
         if self.turnR:
@@ -109,35 +111,28 @@ class Car(BoundedObject, Thread):
             self.cooldowncount -= 1
             self.__screen.ontimer(self.coolDown, 10)
 
-    def boundsFGood(self):
-        contFwd = True
+    def checkCollisions(self):
         angle = self.heading() % 360
+        xPos, yPos = self.position()
         if self.outOfBounds():
-            xPos, yPos = self.position()
-            if (abs(xPos - self.getXMax()) < 20) and (angle < 90 or angle > 270):
-                contFwd = False
-            elif (abs(xPos - self.getXMin()) < 20) and (90 < angle < 270):
-                contFwd = False
-            if (abs(yPos - self.getYMax()) < 20) and angle < 180:
-                contFwd = False
-            elif (abs(yPos - self.getYMin()) < 20) and angle > 180:
-                contFwd = False
-        return contFwd
+            if xPos > self.getXMax() - 3*self.__ogSpeed:
+                self.contFwd = 90 < angle < 270
+                self.contBkwd = not 90 < angle < 270
+            elif xPos < self.getXMin() + 3*self.__ogSpeed:
+                self.contFwd = not 90 < angle < 270
+                self.contBkwd = 90 < angle < 270
+            if yPos > self.getYMax() - 3*self.__ogSpeed:
+                self.contFwd = angle > 180
+                self.contBkwd = angle < 180
+            elif yPos < self.getYMin() + 3*self.__ogSpeed:
+                self.contFwd = angle < 180
+                self.contBkwd = angle > 180
+        else:
+            self.contFwd = True
+            self.contBkwd = True
 
-    def boundsBGood(self):
-        contBkwd = True
-        angle = self.heading() % 360
-        if self.outOfBounds():
-            xPos, yPos = self.position()
-            if (abs(xPos - self.getXMax()) < 20) and (90 < angle < 270):
-                contBkwd = False
-            elif (abs(xPos - self.getXMin()) < 20) and (angle < 90 or angle > 270):
-                contBkwd = False
-            if (abs(yPos - self.getYMax()) < 20) and angle > 180:
-                contBkwd = False
-            elif (abs(yPos - self.getYMin()) < 20) and angle < 180:
-                contBkwd = False
-        return contBkwd
+        if abs(xPos) + abs(yPos) > 3000:
+            print("HOW DID YOU GET HERE?!?")
 
     def quit(self):
         self.__screen.bye()

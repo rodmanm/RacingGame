@@ -41,5 +41,9 @@ class BoundedObject(Turtle):
         pass
 
     @abstractmethod
+    def checkCollisions(self):
+        pass
+
+    @abstractmethod
     def move(self):
         pass
