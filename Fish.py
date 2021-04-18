@@ -1,12 +1,10 @@
 import random
 from BoundedObject import BoundedObject
 from car import Car
-from threading import Thread
 
-class Fish(BoundedObject, Thread):
-    def __init__(self, speed, xMin, xMax, yMin, yMax, xPlace, yPlace):
-        super().__init__(speed, xMin, xMax, yMin, yMax)
-        Thread.__init__(self)
+class Fish(BoundedObject):
+    def __init__(self, speed, xMax, yMax, xPlace, yPlace):
+        super().__init__(speed, xMax, yMax)
         self.getscreen().tracer(0)
         self.up()
         self.resizemode('user')
@@ -23,7 +21,10 @@ class Fish(BoundedObject, Thread):
             self.getscreen().addshape("Resources/fish-left.gif")
         if "Resources/fish-right.gif" not in self.getscreen().getshapes():
             self.getscreen().addshape("Resources/fish-right.gif")
-        self.shape("Resources/fish-left.gif")
+        if 270 > self.heading() % 360 > 90:
+            self.shape("Resources/fish-left.gif")
+        else:
+            self.shape("Resources/fish-right.gif")
 
     def move(self):
         if self.__alive:
@@ -39,11 +40,14 @@ class Fish(BoundedObject, Thread):
         oldHead = self.heading()
         newHead = oldHead
 
-        if xPos < self.getXMin() or xPos > self.getXMax():
+        if xPos < 0 or xPos > self.getXMax():
             newHead = 180 - oldHead
-        if yPos < self.getYMin() or yPos > self.getYMax():
+        if yPos < 0 or yPos > self.getYMax():
             newHead = 360 - oldHead
-
+        if 270 > newHead % 360 > 90:
+            self.shape("Resources/fish-left.gif")
+        else:
+            self.shape("Resources/fish-right.gif")
         self.setheading(newHead)
 
     def checkCollisions(self):
@@ -57,4 +61,5 @@ class Fish(BoundedObject, Thread):
 
     def remove(self):
         self.ht()
-        pass
+        self.clear()
+        del self

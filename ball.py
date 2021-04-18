@@ -1,8 +1,7 @@
 from BoundedObject import BoundedObject
 from car import Car
-from threading import Thread
 
-class Ball(BoundedObject, Thread):
+class Ball(BoundedObject):
     @staticmethod
     def location():
         xPos, yPos = Ball.position()
@@ -11,7 +10,6 @@ class Ball(BoundedObject, Thread):
 
     def __init__(self, speed, xMin, xMax, yMin, yMax):
         super().__init__(speed, xMin, xMax, yMin, yMax)
-        Thread.__init__(self)
         self.resizemode('user')
         self.color('black', 'white')
         self.shape('circle')

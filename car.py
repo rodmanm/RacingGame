@@ -1,8 +1,7 @@
 from BoundedObject import BoundedObject
 from time import time
-from threading import Thread
 
-class Car(BoundedObject, Thread):
+class Car(BoundedObject):
     allCars = []
     fuel = 0
 
@@ -10,9 +9,8 @@ class Car(BoundedObject, Thread):
     def getCars():
         return [x for x in Car.allCars]
 
-    def __init__(self, heading, speed, xMin, xMax, yMin, yMax):
-        super().__init__(speed, xMin, xMax, yMin, yMax)
-        Thread.__init__(self)
+    def __init__(self, heading, speed, xMax, yMax):
+        super().__init__(speed, xMax, yMax)
         self.__ogSpeed = speed
         # self.resizemode('user')
         self.color('green')
@@ -118,13 +116,13 @@ class Car(BoundedObject, Thread):
             if xPos > self.getXMax() - 3*self.__ogSpeed:
                 self.contFwd = 90 < angle < 270
                 self.contBkwd = not 90 < angle < 270
-            elif xPos < self.getXMin() + 3*self.__ogSpeed:
+            elif xPos < 3*self.__ogSpeed:
                 self.contFwd = not 90 < angle < 270
                 self.contBkwd = 90 < angle < 270
             if yPos > self.getYMax() - 3*self.__ogSpeed:
                 self.contFwd = angle > 180
                 self.contBkwd = angle < 180
-            elif yPos < self.getYMin() + 3*self.__ogSpeed:
+            elif yPos < 3*self.__ogSpeed:
                 self.contFwd = angle < 180
                 self.contBkwd = angle > 180
         else:

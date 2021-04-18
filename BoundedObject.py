@@ -1,34 +1,29 @@
 from turtle import Turtle
 from abc import abstractmethod
-class BoundedObject(Turtle):
-    def __init__(self, speed, xMin, xMax, yMin, yMax):
+from threading import Thread
+
+class BoundedObject(Turtle, Thread):
+    def __init__(self, speed=0, xMax=800, yMax=800):
         super().__init__()
-        self.__xMin = xMin
+        Thread.__init__(self)
         self.__xMax = xMax
-        self.__yMin = yMin
         self.__yMax = yMax
         self.__speed = speed
 
     def outOfBounds(self):
         xPos, yPos = self.position()
         out = False
-        if xPos < self.__xMin or xPos > self.__xMax:
+        if xPos < 0 or xPos > self.__xMax:
             out = True
-        if yPos < self.__yMin or yPos > self.__yMax:
+        if yPos < 0 or yPos > self.__yMax:
             out = True
         return out
 
     def getSpeed(self):
         return self.__speed
 
-    def getXMin(self):
-        return self.__xMin
-
     def getXMax(self):
         return self.__xMax
-
-    def getYMin(self):
-        return self.__yMin
 
     def getYMax(self):
         return self.__yMax
