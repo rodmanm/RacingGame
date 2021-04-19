@@ -13,7 +13,11 @@ class Ball(BoundedObject):
         return -1, -1
 
     @staticmethod
-    def destroy():
+    def getBalls():
+        return ball
+
+    @staticmethod
+    def destroyAll():
         for i in ball:
             i.ht()
             i.clear()
@@ -24,6 +28,7 @@ class Ball(BoundedObject):
         self.color('black', 'white')
         self.shape('circle')
         self.up()
+        self.speed("fastest")
         self.turtlesize(1.5)
         self.goto(300, 300)
         self.setheading(0)
@@ -55,7 +60,7 @@ class Ball(BoundedObject):
                 self.setSpeed(2*vehicle.getSpeed()*vehicle.gof + self.getSpeed())
 
     def remove(self):
-        self.ht()
-        self.clear()
+        # self.ht()
+        # self.clear()
         del self
 

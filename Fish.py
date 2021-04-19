@@ -8,8 +8,7 @@ class Fish(BoundedObject):
         self.getscreen().tracer(0)
         self.up()
         self.resizemode('user')
-        # self.color('black', 'red')
-        # self.shape('triangle')
+        self.speed("fastest")
         self.up()
         self.turtlesize(1.5)
         self.goto(xPlace, yPlace)
@@ -28,7 +27,7 @@ class Fish(BoundedObject):
 
     def move(self):
         if self.__alive:
-            self.forward(self.getSpeed())
+            self.forward(self.getSpeed()/2)
         if self.outOfBounds():
             self.computeNewHeading()
 
