@@ -40,7 +40,10 @@ class Soccer:
         for i in self.objects:
             i.checkCollisions()
             i.move()
-        self.__mainWin.ontimer(self.movement, 2)
+        if len(self.objects) < 4:
+            self.__mainWin.ontimer(self.movement, 2)
+        else:
+            self.movement()
 
 if __name__ == '__main__':
     game = Soccer(800, 600)

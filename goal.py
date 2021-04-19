@@ -1,17 +1,23 @@
 from BoundedObject import BoundedObject
+from ball import Ball
+
 
 class Goal(BoundedObject):
-    def __init__(self):
+    def __init__(self, x=800, y=300, size=15):
         super().__init__()
         self.color('black', 'black')
         self.shape('square')
         self.up()
-        self.turtlesize(15)
+        self.turtlesize(size)
         self.ht()
-        self.goto(800, 300)
+        self.x = x
+        self.y = y
+        self.size = size * 10
+        self.goto(self.x, self.y)
         self.setheading(0)
         self.getscreen().tracer(1)
         self.st()
+        self.BallInGoal = False
 
     def remove(self):
         self.ht()
@@ -22,5 +28,7 @@ class Goal(BoundedObject):
         pass
 
     def checkCollisions(self):
-        # TODO CHECK IF BALL IS IN GOAL
-        pass
+        x, y = Ball.location()
+        if self.x + self.size > x > self.x - self.size \
+                and self.y + self.size > y > self.y - self.size:
+            self.BallInGoal = True
