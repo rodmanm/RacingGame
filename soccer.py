@@ -63,5 +63,8 @@ class Soccer:
         Goal.InGoal = False
 
 if __name__ == '__main__':
-    game = Soccer(800, 600)
-    game.play()
+    try:
+        game = Soccer(800, 600)
+        game.play()
+    except RecursionError:
+        pass

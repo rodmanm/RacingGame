@@ -12,7 +12,6 @@ class Car(BoundedObject):
     def __init__(self, speed, xMax, yMax):
         super().__init__(speed, xMax, yMax)
         self.__ogSpeed = speed
-        # self.resizemode('user')
         self.color('green')
         self.shape('turtle')
         self.turtlesize(3)
