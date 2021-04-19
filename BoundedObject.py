@@ -6,6 +6,7 @@ class BoundedObject(Turtle, Thread):
     def __init__(self, speed=0, xMax=800, yMax=800):
         super().__init__()
         Thread.__init__(self)
+        self.size = 10
         self.__xMax = xMax
         self.__yMax = yMax
         self.__speed = speed
@@ -13,9 +14,9 @@ class BoundedObject(Turtle, Thread):
     def outOfBounds(self):
         xPos, yPos = self.position()
         out = False
-        if xPos < 0 or xPos > self.__xMax:
+        if xPos < self.size or xPos > self.__xMax - self.size:
             out = True
-        if yPos < 0 or yPos > self.__yMax:
+        if yPos < self.size or yPos > self.__yMax - self.size:
             out = True
         return out
 

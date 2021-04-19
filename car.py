@@ -17,6 +17,7 @@ class Car(BoundedObject):
         self.shape('turtle')
         self.turtlesize(3)
         self.setheading(heading)
+        self.size = 20
         Car.allCars = Car.getCars()
         Car.allCars.append(self)
 
@@ -95,7 +96,7 @@ class Car(BoundedObject):
         if Car.fuel >= 2:
             self.double = True
             self.sec = time()
-            self.__screen.onkey(None, " ")
+            self.__screen.onkey(lambda a: a, " ")
             print("\nYeeesss!!")
             Car.fuel -= 2
             self.cooldowncount = 1000
@@ -112,19 +113,19 @@ class Car(BoundedObject):
     def checkCollisions(self):
         angle = self.heading() % 360
         xPos, yPos = self.position()
-        if self.outOfBounds():
-            if xPos > self.getXMax() - 3*self.__ogSpeed:
-                self.contFwd = 90 < angle < 270
-                self.contBkwd = not 90 < angle < 270
-            elif xPos < 3*self.__ogSpeed:
-                self.contFwd = not 90 < angle < 270
-                self.contBkwd = 90 < angle < 270
-            if yPos > self.getYMax() - 3*self.__ogSpeed:
-                self.contFwd = angle > 180
-                self.contBkwd = angle < 180
-            elif yPos < 3*self.__ogSpeed:
-                self.contFwd = angle < 180
-                self.contBkwd = angle > 180
+
+        if xPos > self.getXMax() - self.size:
+            self.contFwd = 90 < angle < 270
+            self.contBkwd = not 90 < angle < 270
+        elif xPos < 2*self.size:
+            self.contFwd = not 90 < angle < 270
+            self.contBkwd = 90 < angle < 270
+        elif yPos > self.getYMax() - self.size:
+            self.contFwd = angle > 180
+            self.contBkwd = angle < 180
+        elif yPos < self.size:
+            self.contFwd = angle < 180
+            self.contBkwd = angle > 180
         else:
             self.contFwd = True
             self.contBkwd = True

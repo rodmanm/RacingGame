@@ -1,17 +1,16 @@
 # khondicker
 from ball import Ball
 from car import Car
-from turtle import *
+from turtle import Screen, mainloop
 from Fish import Fish
 from goal import Goal
-import turtle
 from sys import exit
 
 class Soccer:
     def __init__(self, xMax, yMax):
         self.__xMax = xMax
         self.__yMax = yMax
-        self.__mainWin = turtle.Screen()
+        self.__mainWin = Screen()
         self.__mainWin.bgcolor('light blue')
         self.__mainWin.setup(width=1.0, height=1.0, startx=None, starty=None)
         self.__mainWin.setworldcoordinates(0, 0, self.__xMax, self.__yMax)
@@ -25,6 +24,7 @@ class Soccer:
             a.up()
             a.goto(400, 300)
         self.__mainWin.onkey(self.placeBall, "p")
+        self.__mainWin.onkey(self.placeBall, "b")   # B for Ball
         self.__mainWin.onclick(self.placeFish, 1, None)
         self.__mainWin.onkey(exit, "c")
         self.__mainWin.listen()
