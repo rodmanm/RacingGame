@@ -57,6 +57,7 @@ class Soccer:
         car = self.objects[0]
         car.goto(200, 300)
         car.setheading(0)
+        car.gof = False
         for a in Ball.getBalls():
             a.setSpeed(0)
             a.goto(300, 300)

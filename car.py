@@ -137,6 +137,4 @@ class Car(BoundedObject):
         self.__screen.bye()
 
     def remove(self):
-        # self.ht()
-        # self.quit()
         del self
