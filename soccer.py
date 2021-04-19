@@ -1,4 +1,3 @@
-# khondicker
 from ball import Ball
 from car import Car
 from turtle import Screen, mainloop
