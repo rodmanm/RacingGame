@@ -1,12 +1,22 @@
 from BoundedObject import BoundedObject
 from car import Car
 
+ball = []
+
 class Ball(BoundedObject):
     @staticmethod
     def location():
-        xPos, yPos = Ball.position()
-        pos = (xPos, yPos)
-        return pos
+        for i in ball:
+            xPos, yPos = i.position()
+            pos = (xPos, yPos)
+            return pos
+        return -1, -1
+
+    @staticmethod
+    def destroy():
+        for i in ball:
+            i.ht()
+            i.clear()
 
     def __init__(self, speed, xMax, yMax):
         super().__init__(speed, xMax, yMax)
@@ -18,6 +28,8 @@ class Ball(BoundedObject):
         self.goto(300, 300)
         self.setheading(0)
         self.getscreen().tracer(1)
+        global ball
+        ball.append(self)
 
     def move(self):
         self.forward(self.getSpeed())
