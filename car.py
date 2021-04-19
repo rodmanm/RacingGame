@@ -9,14 +9,14 @@ class Car(BoundedObject):
     def getCars():
         return [x for x in Car.allCars]
 
-    def __init__(self, heading, speed, xMax, yMax):
+    def __init__(self, speed, xMax, yMax):
         super().__init__(speed, xMax, yMax)
         self.__ogSpeed = speed
         # self.resizemode('user')
         self.color('green')
         self.shape('turtle')
         self.turtlesize(3)
-        self.setheading(heading)
+        self.setheading(0)
         self.size = 20
         Car.allCars = Car.getCars()
         Car.allCars.append(self)
@@ -31,7 +31,10 @@ class Car(BoundedObject):
         self.__timeMve = 0
         self.sec = time()
         self.cooldowncount = 0
+        self.__screen = self.getscreen()
+        self.setControls()
 
+    def setControls(self):
         self.__screen = self.getscreen()
         self.__screen.onkeypress(self.fwd, "w")
         self.__screen.onkeyrelease(self.brake, "w")
@@ -43,7 +46,6 @@ class Car(BoundedObject):
         self.__screen.onkeyrelease(self.stpTurn, "d")
         self.__screen.onkey(self.quit, "q")
         self.__screen.onkey(self.doubleSpeed, " ")
-        self.getscreen().ontimer(self.move, 10)
 
     def move(self):
         if self.gof & self.contFwd:
@@ -137,5 +139,6 @@ class Car(BoundedObject):
         self.__screen.bye()
 
     def remove(self):
-        self.ht()
-        self.quit()
+        # self.ht()
+        # self.quit()
+        del self
