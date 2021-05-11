@@ -66,6 +66,9 @@ def game_loop():
                 if event == pygame.K_UP or event == pygame.K_DOWN:
                     background.speed = 0
 
+        if clock.get_time()%10 == 1:
+            #TODO: add more block spawning!
+            pass
 
         #Calculate Updates
         if background.Enabled:
@@ -73,9 +76,7 @@ def game_loop():
         if(car.logging):
             car.tracer()
         car.update()
-        fallingBlock.collide(car, window)
-        if(fallingBlock.y >= window.height):
-            fallingBlock.reset(window)
+        fallingBlock.collide(car)
         if (car.x > window.width - car.width) or (car.x < 0):
                 car.wrap(window)
         if (car.y > window.height - car.height) or (car.y < 0):
@@ -89,7 +90,7 @@ def game_loop():
         clock.tick(FPS)
 objects = []
 background = background(pygame,0,0)
-fallingBlock = fallingBlock(FPS)
+fallingBlock = fallingBlock(FPS, window)
 car = car(pygame,(window.width * 0.45),(window.height * 0.8))
 Track = Track(window, car.width)
 if background.Enabled:

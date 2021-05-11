@@ -1,7 +1,8 @@
 import random
 from math import log, pi
 class fallingBlock():
-    def __init__(self,FPS):
+    def __init__(self,FPS, window):
+        self.window = window
         self.FPS = FPS
         self.x = 300
         self.y = 0
@@ -13,20 +14,20 @@ class fallingBlock():
         self.color = (0,0,0)
     #Create object
     maxspeed = 10
-    def reset(self, display):
-        self.x = random.randrange(self.width, display.width-self.width)
+    def reset(self):
+        self.x = random.randrange(self.width, self.window.width-self.width)
         self.y = -self.height
         self.xspeed = 0
         self.yspeed = 1
     def render(self, pygame, window):
         pygame.draw.rect(window, self.color, [self.x, self.y, self.width, self.height])
-    def collide(self, car, window):
-        if(self.y >= window.height): #| (self.y < -self.height):    #We don't need to check for exceeding the top of the map. It'll fall back down
-            self.reset(window)
-        if(self.x+self.width>=window.width):
+    def collide(self, car):
+        if(self.y >= self.window.height):
+            self.reset()
+        if(self.x+self.width>=self.window.width):
             self.x = 0
         elif(self.x<=0):
-            self.x = window.width - self.width
+            self.x = self.window.width - self.width
 
         if(abs(car.x-self.x)<car.width+self.width/2)&(abs(car.y-self.y)<car.height+self.width/2):
             #This means the Hitboxes are colliding. However, the car's hitbox isn't accurate.
