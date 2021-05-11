@@ -4,22 +4,22 @@ class car:
         self.window = window
         self.x = xinit*self.window.width
         self.y = yinit*self.window.height
+        self.Img = 'D:\\Racing\\Resources\\racecar.png'
         self.Img = pygame.image.load(self.Img)
         self.width = self.Img.get_bounding_rect()[2]
         self.height = self.Img.get_bounding_rect()[3]
-    angle = 0
-    turning = 0
-    Img = 'D:\\Racing\\Resources\\racecar.png'
-    width = 0
-    currentWidth = 0
-    height = 0
-    currentHeight = 0
-    speed = 0
-    accelerating = 0
-    logs = []
-    logging = False
-    tracerColor = (128,128,0)
-    topSpeed = 25
+        self.angle = 0
+        self.turning = 0
+        self.width = 0
+        self.currentWidth = 0
+        self.height = 0
+        self.currentHeight = 0
+        self.speed = 0
+        self.accelerating = 0
+        self.logs = []
+        self.logging = False
+        self.tracerColor = (128,128,0)
+        self.topSpeed = 25
     def update(self):
         if(self.accelerating):
             if(abs(self.speed) < self.topSpeed):

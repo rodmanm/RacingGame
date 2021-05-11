@@ -67,7 +67,7 @@ def game_loop():
                 if event == pygame.K_UP or event == pygame.K_DOWN:
                     background.speed = 0
 
-        if clock.get_time()%timeToSpawn == 1:
+        if clock.get_time()%timeToSpawn == 0:
             objects.append(fallingBlock(FPS, window, car))
             timeToSpawn = timeToSpawn * 2
 

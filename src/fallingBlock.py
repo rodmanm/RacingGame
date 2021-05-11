@@ -19,10 +19,11 @@ class fallingBlock():
         self.x = random.randrange(self.width, self.window.width-self.width)
         self.y = -self.height
         self.xspeed = 0
-        self.yspeed = 1
+        self.yspeed = 7
     def render(self, pygame, window):
         pygame.draw.rect(window, self.color, [self.x, self.y, self.width, self.height])
     def update(self):
+        self.yspeed += 5/self.FPS   #gravity
         if(self.y >= self.window.height):
             self.reset()
         if(self.x+self.width>=self.window.width):
