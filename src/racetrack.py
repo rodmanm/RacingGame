@@ -13,19 +13,17 @@ blue = (0,0,255)
 
 import pygame
 import time
-import fallingBlock
+from fallingBlock import fallingBlock
 from car import car
 from background import background
 from Track import Track
-# from os import system
-# system("cd D:\\Racing")
 
 #Init game state
 game = pygame.init()
 clock = pygame.time.Clock()
 
 #Configure Window
-gameDisplay = pygame.display.set_mode(size = (window.width,window.height),flags = pygame.RESIZABLE|pygame.SCALED, display = 1, vsync=1)
+gameDisplay = pygame.display.set_mode(size = (window.width,window.height),flags = pygame.RESIZABLE|pygame.SCALED, display = 0, vsync=1)
 pygame.display.set_caption('A bit Racey')
 
 
@@ -52,7 +50,6 @@ def gameExit():
 
 def game_loop():
     #Initialize in game values
-
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -83,23 +80,23 @@ def game_loop():
                 car.wrap(window)
         if (car.y > window.height - car.height) or (car.y < 0):
                 car.wrap(window)
-        #Check for collisions
-
         #Render Objects
         gameDisplay.fill(background.color)
-        Track.render(pygame, gameDisplay)
-        if background.Enabled:
-            background.render(gameDisplay, pygame)
-        fallingBlock.render(black,gameDisplay, pygame)
-        car.render(gameDisplay, pygame)
+        for i in objects:
+            i.render(pygame, gameDisplay)
 
         pygame.display.update()
         clock.tick(FPS)
-
+objects = []
 background = background(pygame,0,0)
-fallingBlock = fallingBlock.fallingBlock(FPS)
+fallingBlock = fallingBlock(FPS)
 car = car(pygame,(window.width * 0.45),(window.height * 0.8))
 Track = Track(window, car.width)
+if background.Enabled:
+    objects.append(background)
+objects.append(fallingBlock)
+objects.append(car)
+objects.append(Track)
 game_loop()
 print("Good Game!")
 #quit()

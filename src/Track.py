@@ -2,12 +2,11 @@ from math import sin,cos,pi
 class Track():
     color = (0,255,0)
     lineColor = (255,255,255)
-    #color = (0,0,0)
     ycoords = []
     xcoords = []
     loop = []
     border = []
-    def __init__(self,display, width):#Modify this to be the equation of a semi random closed surface.
+    def __init__(self, display, width):#Modify this to be the equation of a semi random closed surface.
         points = list(range(display.height))
         self.loop = []
         for i in points:#Generate half
@@ -37,6 +36,6 @@ class Track():
         for i in self.loop[::-1]:
             self.border.append([abs(-i[0]),abs(i[1])])
         #print(self.loop)
-    def render(self,pygame,display):
+    def render(self, pygame, display):
         pygame.draw.polygon(display, self.color, self.loop, width = 4)
         #pygame.draw.lines(display, self.lineColor, False, self.loop)

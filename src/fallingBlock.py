@@ -3,22 +3,23 @@ from math import log, pi
 class fallingBlock():
     def __init__(self,FPS):
         self.FPS = FPS
+        self.x = 300
+        self.y = 0
+        self.width = 100
+        self.yspeed = 7
+        self.xspeed = 0
+        self.height = 100
+        self.FPS = 60
+        self.color = (0,0,0)
     #Create object
-    x = 300
-    y = 0
     maxspeed = 10
-    width = 100
-    yspeed = 7
-    xspeed = 0
-    height = 100
-    FPS = 60
     def reset(self, display):
         self.x = random.randrange(self.width, display.width-self.width)
         self.y = -self.height
         self.xspeed = 0
         self.yspeed = 1
-    def render(self, color, window, pygame):
-        pygame.draw.rect(window, color, [self.x, self.y, self.width, self.height])
+    def render(self, pygame, window):
+        pygame.draw.rect(window, self.color, [self.x, self.y, self.width, self.height])
     def collide(self, car, window):
         if(self.y >= window.height): #| (self.y < -self.height):    #We don't need to check for exceeding the top of the map. It'll fall back down
             self.reset(window)
@@ -40,7 +41,7 @@ class fallingBlock():
                     car.speed = 0.5*(car.speed-self.yspeed)
                     self.yspeed += car.speed
                     car.angle = pi
-                    #TODO: Proper Angle Changing 
+                    #TODO: Proper Angle Changing
             else:
                 #The car hit the side of the block
                 if(car.x>self.x):
@@ -53,3 +54,6 @@ class fallingBlock():
         self.x += self.xspeed
         self.yspeed += car.height/self.FPS/10
         self.y += self.yspeed
+
+if __name__ == "__main__":
+    import racetrack

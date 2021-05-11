@@ -36,7 +36,7 @@ class car:
         self.currentHeight = abs(self.width*sin(self.angle))+abs(self.height*cos(self.angle))
 
 
-    def render(self,display, pygame):
+    def render(self, pygame, display):
         rotated_image = pygame.transform.rotate(self.Img, self.angle*180/pi)
         display.blit(rotated_image, (self.x,self.y))
         if len(self.logs)>10 and self.logging:
