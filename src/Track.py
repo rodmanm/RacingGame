@@ -39,3 +39,5 @@ class Track():
     def render(self, pygame, display):
         pygame.draw.polygon(display, self.color, self.loop, width = 4)
         #pygame.draw.lines(display, self.lineColor, False, self.loop)
+    def update(self):
+        pass

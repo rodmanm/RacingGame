@@ -1,9 +1,10 @@
 import random
 from math import log, pi
 class fallingBlock():
-    def __init__(self,FPS, window):
+    def __init__(self,FPS, window, car):
         self.window = window
         self.FPS = FPS
+        self.car = car
         self.x = 300
         self.y = 0
         self.width = 100
@@ -21,7 +22,7 @@ class fallingBlock():
         self.yspeed = 1
     def render(self, pygame, window):
         pygame.draw.rect(window, self.color, [self.x, self.y, self.width, self.height])
-    def collide(self, car):
+    def update(self):
         if(self.y >= self.window.height):
             self.reset()
         if(self.x+self.width>=self.window.width):
@@ -29,31 +30,31 @@ class fallingBlock():
         elif(self.x<=0):
             self.x = self.window.width - self.width
 
-        if(abs(car.x-self.x)<car.width+self.width/2)&(abs(car.y-self.y)<car.height+self.width/2):
+        if(abs(self.car.x-self.x)<self.car.width+self.width/2)&(abs(self.car.y-self.y)<self.car.height+self.width/2):
             #This means the Hitboxes are colliding. However, the car's hitbox isn't accurate.
-            if(abs(car.y-self.y)>abs(car.x-self.x)):
+            if(abs(self.car.y-self.y)>abs(self.car.x-self.x)):
                 #The car is mostly vertical to the block
-                if(car.y-self.y<0):
+                if(self.car.y-self.y<0):
                     #If the car is above the block
-                    car.speed = 0.5*car.speed
-                    self.yspeed += abs(car.speed)
+                    self.car.speed = 0.5*self.car.speed
+                    self.yspeed += abs(self.car.speed)
                 else:
                     #The car is below the block
-                    car.speed = 0.5*(car.speed-self.yspeed)
-                    self.yspeed += car.speed
-                    car.angle = pi
+                    self.car.speed = 0.5*(self.car.speed-self.yspeed)
+                    self.yspeed += self.car.speed
+                    self.car.angle = pi
                     #TODO: Proper Angle Changing
             else:
                 #The car hit the side of the block
-                if(car.x>self.x):
+                if(self.car.x>self.x):
                     #The car hit the right side of the block
-                    car.speed = 0.5*car.speed
-                    self.xspeed += car.speed
+                    self.car.speed = 0.5*self.car.speed
+                    self.xspeed += self.car.speed
                 else:
-                    car.speed = 0.5*car.speed
-                    self.xspeed += -car.speed
+                    self.car.speed = 0.5*self.car.speed
+                    self.xspeed += -self.car.speed
         self.x += self.xspeed
-        self.yspeed += car.height/self.FPS/10
+        self.yspeed += self.car.height/self.FPS/10
         self.y += self.yspeed
 
 if __name__ == "__main__":

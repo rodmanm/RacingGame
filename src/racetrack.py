@@ -50,6 +50,7 @@ def gameExit():
 
 def game_loop():
     #Initialize in game values
+    timeToSpawn = 10
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -66,21 +67,16 @@ def game_loop():
                 if event == pygame.K_UP or event == pygame.K_DOWN:
                     background.speed = 0
 
-        if clock.get_time()%10 == 1:
-            #TODO: add more block spawning!
-            pass
+        if clock.get_time()%timeToSpawn == 1:
+            objects.append(fallingBlock(FPS, window, car))
+            timeToSpawn = timeToSpawn * 2
 
         #Calculate Updates
-        if background.Enabled:
-            background.update(car)
         if(car.logging):
             car.tracer()
-        car.update()
-        fallingBlock.collide(car)
-        if (car.x > window.width - car.width) or (car.x < 0):
-                car.wrap(window)
-        if (car.y > window.height - car.height) or (car.y < 0):
-                car.wrap(window)
+        for i in objects:
+            i.update()
+
         #Render Objects
         gameDisplay.fill(background.color)
         for i in objects:
@@ -90,12 +86,12 @@ def game_loop():
         clock.tick(FPS)
 objects = []
 background = background(pygame,0,0)
-fallingBlock = fallingBlock(FPS, window)
-car = car(pygame,(window.width * 0.45),(window.height * 0.8))
+car = car(pygame,window)
+# fallingBlock = fallingBlock(FPS, window, car)
 Track = Track(window, car.width)
 if background.Enabled:
     objects.append(background)
-objects.append(fallingBlock)
+# objects.append(fallingBlock)
 objects.append(car)
 objects.append(Track)
 game_loop()

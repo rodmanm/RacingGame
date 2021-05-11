@@ -1,6 +1,7 @@
 from math import sin, cos
 class background:
-    def __init__(self,pygame,xinit,yinit):
+    def __init__(self,pygame,car,xinit=0,yinit=0):
+        self.car = car
         self.x = xinit
         self.y = yinit
         self.Img = pygame.image.load(self.Img)
@@ -21,8 +22,8 @@ class background:
     def render(self,display, pygame):
         #rotated_image = pygame.transform.rotate(self.Img, self.angle*180/pi)
         display.blit(self.Img, (self.x,self.y))
-    def update(self, car):
-        self.speed += car.speed
-        self.x -= self.speed*sin(car.angle)
-        self.y -= self.speed*cos(car.angle)
-        car.speed = 0
+    def update(self):
+        self.speed += self.car.speed
+        self.x -= self.speed*sin(self.car.angle)
+        self.y -= self.speed*cos(self.car.angle)
+        self.car.speed = 0
